@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -8,35 +11,119 @@ android {
 
     defaultConfig {
         applicationId "com.myxllite.app"
-        minSdk 16
-        targetSdk 31
-        versionCode 1
-        versionName "1.0"
+        minSdk rootProject.ext.minSdkVersion
+        targetSdk rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
     }
+
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
+}
+
+gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+        options.compilerArgs << "-Xmaxerrs" << "1000"
+    }
+}
+
+kapt {
+    javacOptions {
+        // Increase the max count of errors from annotation processors.
+        // Default is 100.
+        option("-Xmaxerrs", 1000)
+    }
+    //useBuildCache = true
 }
 
 dependencies {
 
-    implementation 'androidx.core:core-ktx:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.4.1'
-    implementation 'com.google.android.material:material:1.5.0'
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    // kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+
+    // Multidex
+    implementation "androidx.multidex:multidex:$rootProject.multidexVersion"
+
+    // preference
+    implementation "androidx.preference:preference-ktx:$rootProject.androidXPreferenceVersion"
+
+    // room db
+    implementation "androidx.room:room-runtime:$rootProject.roomVersion"
+    kapt "androidx.room:room-compiler:$rootProject.roomVersion"
+    implementation "androidx.room:room-ktx:$rootProject.roomVersion"
+
+    // retrofit
+    implementation("com.squareup.retrofit2:retrofit:$rootProject.retrofitVersion") {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.retrofitVersion"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.okHttpVersion"
+
+    // parser
+    implementation "com.google.code.gson:gson:$rootProject.gsonVersion"
+
+    // coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutineVersion"
+
+    // androidX
+    implementation "androidx.appcompat:appcompat:$rootProject.androidXVersion"
+    implementation "androidx.core:core-ktx:$rootProject.androidXCoreVersion"
+    //api "androidx.legacy:legacy-support-v4:$rootProject.androidSupportV4Version"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.recyclerViewVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.constraintLayoutVersion"
+    implementation "androidx.cardview:cardview:$rootProject.cardViewVersion"
+    implementation "com.google.android.material:material:$rootProject.androidMaterialVersion"
+
+    // Vector Drawable
+    implementation "androidx.vectordrawable:vectordrawable:$rootProject.vectorDrawableVersion"
+    implementation "androidx.vectordrawable:vectordrawable-animated:$rootProject.vectorDrawableVersion"
+
+    // view model
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.lifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.lifecycleVersion"
+    //implementation "androidx.lifecycle:lifecycle-livedata-ktx:$rootProject.lifecycleVersion"
+
+    // apache commons io
+    implementation "commons-io:commons-io:$rootProject.commonsIoVersion"
+
+    // glide
+    implementation "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    kapt "com.github.bumptech.glide:compiler:$rootProject.glideVersion"
+    implementation("com.github.bumptech.glide:okhttp3-integration:$rootProject.glideVersion") {
+        exclude group: 'com.squareup.okhttp3', module: 'okhttp'
+    }
+
+    // Work Manager
+    implementation "androidx.work:work-runtime-ktx:$rootProject.workManagerVersion"
+
+    // play services
+    implementation "com.google.android.gms:play-services-base:$rootProject.playserviceBaseVersion"
+
+    // dagger
+    implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
 }
