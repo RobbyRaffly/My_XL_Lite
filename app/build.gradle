@@ -6,6 +6,9 @@ plugins {
     id 'kotlin-kapt'
 }
 
+Properties properties = new Properties()
+properties.load(rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk 31
 
@@ -15,8 +18,21 @@ android {
         targetSdk rootProject.ext.targetSdkVersion
         versionCode rootProject.ext.versionCode
         versionName rootProject.ext.versionName
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "DATABASE_NAME", databaseName
+        buildConfigField "String", "PREFERENCES_NAME", preferencesName
+        buildConfigField("String", "BASE_API_URL", properties.getProperty('BASE_API_URL'))
+        buildConfigField("String", "BASE_API_URL_GAMIFICATION", properties.getProperty('BASE_API_URL_GAMIFICATION'))
+        buildConfigField("String", "BASE_API_URL_POSTPAID", properties.getProperty('BASE_API_URL_POSTPAID'))
+        buildConfigField("String", "BASE_API_URL_SHARINGS", properties.getProperty('BASE_API_URL_SHARINGS'))
+        buildConfigField("String", "BASE_API_URL_FTTH", properties.getProperty('BASE_API_URL_FTTH'))
+        buildConfigField("String", "BASE_API_URL_MISCELLANEOUS", properties.getProperty('BASE_API_URL_MISCELLANEOUS'))
+        buildConfigField("String", "BASE_API_URL_AUTHS", properties.getProperty('BASE_API_URL_AUTHS'))
+        buildConfigField("String", "BASE_API_URL_INFOS", properties.getProperty('BASE_API_URL_INFOS'))
+        buildConfigField("String", "XL_NETWORK_URL", properties.getProperty('XL_NETWORK_URL'))
     }
 
     buildTypes {
