@@ -17,4 +17,17 @@ class LocalRepository @Inject constructor(
     override fun setInAppUpdateShow(isShow: Boolean) {
         appPreferences.isInAppUpdateShow = isShow
     }
+
+    override fun clearNetworkAndFailSafeCache() {
+        appPreferences.clearNetworkPreferences()
+        appPreferences.clearFailSafePreferences()
+    }
+
+    override fun resetAvatarSignature(value: String) {
+        appPreferences.avatarSignature = value
+    }
+
+    override suspend fun deleteAllStoreConfig(): Int {
+        return appDatabase.storeConfigDao().deleteAll()
+    }
 }

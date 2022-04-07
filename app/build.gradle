@@ -142,4 +142,8 @@ dependencies {
     // dagger
     implementation "com.google.dagger:dagger:$rootProject.daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+
+    // xl component
+    implementation "com.myxlultimate:component:$rootProject.componentVersionName"
+    implementation "com.github.hotchemi:khronos:$rootProject.khronos"
 }

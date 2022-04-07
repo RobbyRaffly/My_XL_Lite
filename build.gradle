@@ -3,9 +3,19 @@ buildscript {
     ext.kotlin_version = '1.6.10'
     ext.android_gradle_plugin_version = '7.1.2'
 
+    Properties localProperties = new Properties()
+    localProperties.load(file('local.properties').newDataInputStream())
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://artifacts.netcore.co.in/artifactory/android' }
+        maven {
+            credentials {
+                username = localProperties.getProperty('mavenUser')
+                password = localProperties.getProperty('mavenPassword')
+            }
+            url "https://archives.ult.ext.xlaxiata.co.id/repository/maven-releases/"
+        }
     }
 }
 
@@ -20,12 +30,15 @@ task clean(type: Delete) {
 }
 
 ext {
-    minSdkVersion = 16
+    minSdkVersion = 21
     targetSdkVersion = 31
     compileSdkVersion = 31
     buildToolsVersion = '31.0.0'
     versionCode = 1
     versionName = '1.0.0'
+
+    componentVersionName = "1.0.51"
+    khronos = "0.9.0"
 
     androidXVersion = '1.4.1'
     androidXCoreVersion = '1.7.0'

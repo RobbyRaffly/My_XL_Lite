@@ -17,10 +17,12 @@ import javax.inject.Inject
  * Created by Bacharudin Farisi on 29/03/22
  */
 @SuppressLint("CustomSplashScreen")
-class SplashScreenActivity :BaseActivity<ActivitySplashScreenBinding, SplashScreenViewModel, SplashScreenViewModelContract>(), SplashScreenActivityView {
+class SplashScreenActivity :
+    BaseActivity<ActivitySplashScreenBinding, SplashScreenViewModel, SplashScreenViewModelContract>(),
+    SplashScreenActivityView {
 
     @Inject
-    lateinit var viewModelfactory:ViewModelProvider.Factory
+    lateinit var viewModelfactory: ViewModelProvider.Factory
 
     override fun getLayoutId(): Int = R.layout.activity_splash_screen
 
@@ -28,14 +30,21 @@ class SplashScreenActivity :BaseActivity<ActivitySplashScreenBinding, SplashScre
 
     override fun getFactoryViewModel(): ViewModelProvider.Factory = viewModelfactory
 
-    override fun getClassViewModel(): Class<SplashScreenViewModel> = SplashScreenViewModel::class.java
+    override fun getClassViewModel(): Class<SplashScreenViewModel> =
+        SplashScreenViewModel::class.java
 
     override fun performDependencyInjection() {
-        DaggerSplashScreenActivityComponent.builder().coreComponent(coreComponent()).build().inject(this)
+        DaggerSplashScreenActivityComponent.builder().coreComponent(coreComponent()).build()
+            .inject(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        manageAppPreferences()
+    }
+
+    override fun manageAppPreferences() {
         getViewModel().setInAppUpdateShow(true)
+        getViewModel().clearCacheAndResetAvatarSignature()
     }
 }

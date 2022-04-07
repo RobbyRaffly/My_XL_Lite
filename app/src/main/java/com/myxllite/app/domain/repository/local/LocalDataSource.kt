@@ -5,4 +5,10 @@ package com.myxllite.app.domain.repository.local
  */
 interface LocalDataSource {
     fun setInAppUpdateShow(isShow: Boolean)
+
+    fun clearNetworkAndFailSafeCache()
+
+    fun resetAvatarSignature(value: String)
+
+    suspend fun deleteAllStoreConfig(): Int
 }

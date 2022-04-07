@@ -32,12 +32,7 @@ object LocalDataSourceProvider {
     fun getAppPreferences(context: Context): AppPreferences {
         if (appPreferences == null) {
             appPreferences =
-                AppRepository(
-                    context.getSharedPreferences(
-                        BuildConfig.PREFERENCES_NAME,
-                        Context.MODE_PRIVATE
-                    )
-                )
+                AppRepository(context)
         }
         return appPreferences as AppPreferences
     }

@@ -5,4 +5,10 @@ package com.myxllite.app.domain.interactor.splashscreen
  */
 interface SplashScreenInteractor {
     fun setInAppUpdateShow(isShow: Boolean)
+
+    fun clearNetworkAndFailSafeCache()
+
+    fun resetAvatarSignature(value: String)
+
+    suspend fun deleteAllStoreConfig(): Int
 }

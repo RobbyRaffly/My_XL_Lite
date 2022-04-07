@@ -5,4 +5,5 @@ package com.myxllite.app.presentation.splashscreen
  */
 interface SplashScreenActivityView {
 
+    fun manageAppPreferences()
 }

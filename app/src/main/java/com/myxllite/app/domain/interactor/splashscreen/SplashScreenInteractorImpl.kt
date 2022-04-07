@@ -11,7 +11,20 @@ class SplashScreenInteractorImpl @Inject constructor(
     private val remoteDataSource: RemoteDataSource,
     private val localDataSource: LocalDataSource
 ) : SplashScreenInteractor {
+
     override fun setInAppUpdateShow(isShow: Boolean) {
         localDataSource.setInAppUpdateShow(isShow)
+    }
+
+    override fun clearNetworkAndFailSafeCache() {
+        localDataSource.clearNetworkAndFailSafeCache()
+    }
+
+    override fun resetAvatarSignature(value: String) {
+        localDataSource.resetAvatarSignature(value)
+    }
+
+    override suspend fun deleteAllStoreConfig(): Int {
+        return localDataSource.deleteAllStoreConfig()
     }
 }

@@ -7,7 +7,7 @@ import javax.inject.Inject
 /**
  * Created by Bacharudin Farisi on 29/03/22
  */
-class RemoteRepository@Inject constructor(
+class RemoteRepository @Inject constructor(
     private val apiService: ApiService,
     private val gson: Gson
 ) : RemoteDataSource {

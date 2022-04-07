@@ -6,10 +6,22 @@ pluginManagement {
     }
 }
 dependencyResolutionManagement {
+    Properties localProperties = new Properties()
+    localProperties.load(file('local.properties').newDataInputStream())
+
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         google()
         mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url 'https://artifacts.netcore.co.in/artifactory/android' }
+        maven {
+            credentials {
+                username = localProperties.getProperty('mavenUser')
+                password = localProperties.getProperty('mavenPassword')
+            }
+            url "https://archives.ult.ext.xlaxiata.co.id/repository/maven-releases/"
+        }
     }
 }
 rootProject.name = "My XL Lite"
